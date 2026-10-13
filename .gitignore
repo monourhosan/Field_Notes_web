@@ -8,6 +8,7 @@ backend/target/
 # Flutter build artifacts
 mobile/build/
 **/build/
+*.apk
 .dart_tool/
 mobile/.dart_tool/
 .flutter-plugins

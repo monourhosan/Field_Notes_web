@@ -40,7 +40,7 @@ android {
     }
     buildTypes {
         release {
-            signingConfig = if (releaseStore != null) signingConfigs.getByName("release") else null
+            signingConfig = if (releaseStore != null) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
         }
     }
 }

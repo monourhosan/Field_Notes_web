@@ -43,7 +43,6 @@ class _NotePhotoState extends State<NotePhoto> {
   Widget build(BuildContext context) {
     final url = Uri.tryParse(widget.data);
     if (url != null && ['http', 'https'].contains(url.scheme)) {
-      if (kReleaseMode && url.scheme != 'https') return _error();
       return Image.network(
         widget.data,
         height: 200,

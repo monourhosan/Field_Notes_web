@@ -22,4 +22,4 @@ app:
   jwt:
     secret: ${JWT_SECRET}
     expiration-ms: ${JWT_EXPIRATION_MS:86400000}
-  cors-origins: ${CORS_ORIGINS:http://localhost:7357,http://127.0.0.1:7357}
+  cors-origins: ${CORS_ORIGINS:http://localhost:7357,http://127.0.0.1:7357,https://*.vercel.app}
