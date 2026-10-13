@@ -44,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final user = await _authRepository.login(event.username, event.password);
       emit(Authenticated(user));
     } catch (e) {
-      emit(AuthFailure(e.toString().replaceAll('Exception: ', '')));
+      emit(AuthFailure(_formatError(e)));
     }
   }
 
@@ -61,8 +61,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       emit(Authenticated(user));
     } catch (e) {
-      emit(AuthFailure(e.toString().replaceAll('Exception: ', '')));
+      emit(AuthFailure(_formatError(e)));
     }
+  }
+
+  String _formatError(dynamic e) {
+    final str = e.toString().replaceAll('Exception: ', '').replaceAll('ClientException: ', '');
+    if (str.contains('Failed to fetch') || str.contains('localhost')) {
+      return 'Cannot reach backend server. Tap the Settings (gear) icon in the top right to configure your live backend URL.';
+    }
+    return str;
   }
 
   Future<void> _onLogoutRequested(

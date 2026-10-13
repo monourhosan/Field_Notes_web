@@ -1,5 +1,8 @@
 class ApiConstants {
-  static const String defaultBaseUrl = 'http://localhost:8080';
+  static const String defaultBaseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://localhost:8080',
+  );
   static const String emulatorBaseUrl = 'http://10.0.2.2:8080';
 
   // Auth endpoints

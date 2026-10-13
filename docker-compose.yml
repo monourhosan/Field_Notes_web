@@ -1,0 +1,38 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: field_notes_mysql
+    environment:
+      MYSQL_DATABASE: field_notes_db
+      MYSQL_USER: field_notes
+      MYSQL_PASSWORD: field_notes_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "field_notes", "-pfield_notes_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: field_notes_backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/field_notes_db?serverTimezone=UTC
+      DB_USERNAME: field_notes
+      DB_PASSWORD: field_notes_password
+      JWT_SECRET: super-secret-jwt-key-minimum-32-characters-long-for-field-notes
+      CORS_ORIGINS: http://localhost:7357,https://*.vercel.app
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

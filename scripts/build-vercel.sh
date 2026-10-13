@@ -20,7 +20,12 @@ flutter --version
 echo "==> Compiling Flutter Web Application..."
 cd mobile
 flutter pub get
-flutter build web --release
+if [ -n "$API_BASE_URL" ]; then
+  echo "==> Building with custom API_BASE_URL: $API_BASE_URL"
+  flutter build web --release --dart-define=API_BASE_URL="$API_BASE_URL"
+else
+  flutter build web --release
+fi
 
 cp web/vercel.json build/web/vercel.json 2>/dev/null || true
 
