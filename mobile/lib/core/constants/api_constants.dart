@@ -1,7 +1,7 @@
 class ApiConstants {
   static const String defaultBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:8080',
+    defaultValue: 'https://fieldnotesweb-production.up.railway.app',
   );
   static const String emulatorBaseUrl = 'http://10.0.2.2:8080';
 
