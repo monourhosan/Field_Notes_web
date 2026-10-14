@@ -84,11 +84,21 @@ class SettingsLocalDataSource {
     await _prefs.setString('default_note_status', status);
   }
 
-  String getBaseUrl() =>
-      _prefs.getString('base_url') ??
-      ((!kIsWeb && defaultTargetPlatform == TargetPlatform.android)
-          ? ApiConstants.emulatorBaseUrl
-          : ApiConstants.defaultBaseUrl);
+  String getBaseUrl() {
+    final saved = _prefs.getString('base_url');
+    if (saved != null && saved.isNotEmpty) {
+      if (kIsWeb &&
+          (saved.contains('localhost') ||
+              saved.contains('127.0.0.1') ||
+              saved.contains('vercel.app'))) {
+        return ApiConstants.defaultBaseUrl;
+      }
+      return saved;
+    }
+    return (!kIsWeb && defaultTargetPlatform == TargetPlatform.android)
+        ? ApiConstants.emulatorBaseUrl
+        : ApiConstants.defaultBaseUrl;
+  }
   Future<void> setBaseUrl(String url) async {
     final uri = Uri.tryParse(url);
     if (uri == null ||

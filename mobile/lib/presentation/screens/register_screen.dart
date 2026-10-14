@@ -96,7 +96,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     'Create your Field Notes account to track inspections',
                     style: TextStyle(color: AppTheme.textSecondary),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 12),
+                  Center(
+                    child: ActionChip(
+                      avatar: const Icon(Icons.dns_outlined, size: 16, color: AppTheme.primaryColor),
+                      label: const Text(
+                        'Server Settings',
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.primaryColor),
+                      ),
+                      tooltip: 'Configure Backend Server URL',
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   TextFormField(
                     controller: _usernameController,
                     decoration: const InputDecoration(

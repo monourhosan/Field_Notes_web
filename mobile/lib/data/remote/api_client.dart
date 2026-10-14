@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../../core/constants/api_constants.dart';
 import '../local/settings_local_data_source.dart';
 
 class ApiException implements Exception {
@@ -48,10 +50,16 @@ class ApiClient {
   }
 
   Uri _buildUri(String path, [Map<String, dynamic>? queryParameters]) {
-    final baseUrl = _settingsDataSource.getBaseUrl().replaceAll(
+    var baseUrl = _settingsDataSource.getBaseUrl().replaceAll(
       RegExp(r'/+$'),
       '',
     );
+    if (kIsWeb &&
+        (baseUrl.contains('localhost') ||
+            baseUrl.contains('127.0.0.1') ||
+            baseUrl.contains('vercel.app'))) {
+      baseUrl = ApiConstants.defaultBaseUrl.replaceAll(RegExp(r'/+$'), '');
+    }
     final cleanPath = path.startsWith('/') ? path : '/$path';
     final fullUrl = '$baseUrl$cleanPath';
 
